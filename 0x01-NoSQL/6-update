@@ -1,0 +1,8 @@
+// 6-update
+// Connect to the MongoDB server
+var conn = new Mongo();
+// Get the database name from the command line argument
+var db = conn.getDB(dbName);
+// Update all documents with name="Holberton school" in the collection school
+// Add the attribute address with the value "972 Mission street"
+db.school.updateMany({ name: "Holberton school" }, { $set: { address: "972 Mission street" } });
