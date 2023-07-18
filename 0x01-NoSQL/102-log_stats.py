@@ -6,13 +6,15 @@ from pymongo.collection import Collection
 
 
 def count_documents(mongo_collection, query={}):
-    """ Count the number of documents in a collection that match the given query.
+    """ Count the number of documents in a collection that
+    match the given query.
 
     Args:
         mongo_collection (pymongo.collection.Collection):
             The pymongo collection object.
         query (dict):
-            The query filter to count documents (default is an empty dictionary).
+            The query filter to count documents (default is an
+            empty dictionary).
 
     Returns:
         int: The number of documents that match the given query.
@@ -21,7 +23,8 @@ def count_documents(mongo_collection, query={}):
 
 
 def count_method(mongo_collection, method):
-    """ Count the number of documents with a specific method in the collection.
+    """ Count the number of documents with a specific method
+    in the collection.
 
     Args:
         mongo_collection (pymongo.collection.Collection):
@@ -50,7 +53,8 @@ def print_stats(mongo_collection):
         count = count_method(mongo_collection, method)
         print(f"method {method}: {count}")
 
-    status_check = count_documents(mongo_collection, {"method": "GET", "path": "/status"})
+    status_check = count_documents(
+        mongo_collection, {"method": "GET", "path": "/status"})
     print(f"{status_check} status check")
 
     ip_pipeline = [{"$group": {"_id": "$ip", "count": {"$sum": 1}}},
