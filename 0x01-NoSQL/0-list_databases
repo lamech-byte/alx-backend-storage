@@ -1,7 +1,9 @@
-// 0-list_databases
 // Connect to the MongoDB server
 var conn = new Mongo();
+
 // Get the admin database
 var db = conn.getDB("admin");
+
 // List all databases
-db.runCommand({ listDatabases: 1 }).databases.forEach(db => print(db.name));
+var databases = db.runCommand({ listDatabases: 1 }).databases;
+databases.forEach(db => print(db.name + "\t" + (db.sizeOnDisk / 1024 / 1024).toFixed(3) + "GB"));
