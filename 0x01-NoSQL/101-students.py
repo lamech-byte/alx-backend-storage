@@ -29,10 +29,12 @@ def top_students(mongo_collection: Collection):
         list: A list of students sorted by average score in descending order.
     """
     students = mongo_collection.find({})
-    return sorted(students, key=lambda student: calculate_average_score(student['topics']), reverse=True)
+    return sorted(
+        students, key=lambda student: calculate_average_score(
+            student['topics']), reverse=True)
 
 
-# The code below is for testing the function. Comment it out when running as a script.
+# The code below is for testing the function.
 
 if __name__ == "__main__":
     from pymongo import MongoClient
@@ -43,15 +45,20 @@ if __name__ == "__main__":
     students_collection = client.my_db.students
 
     j_students = [
-        {'name': "John", 'topics': [{'title': "Algo", 'score': 10.3}, {'title': "C", 'score': 6.2},
+        {'name': "John", 'topics': [{'title': "Algo", 'score': 10.3},
+                                    {'title': "C", 'score': 6.2},
                                     {'title': "Python", 'score': 12.1}]},
-        {'name': "Bob", 'topics': [{'title': "Algo", 'score': 5.4}, {'title': "C", 'score': 4.9},
+        {'name': "Bob", 'topics': [{'title': "Algo", 'score': 5.4},
+                                   {'title': "C", 'score': 4.9},
                                    {'title': "Python", 'score': 7.9}]},
-        {'name': "Sonia", 'topics': [{'title': "Algo", 'score': 14.8}, {'title': "C", 'score': 8.8},
+        {'name': "Sonia", 'topics': [{'title': "Algo", 'score': 14.8},
+                                     {'title': "C", 'score': 8.8},
                                      {'title': "Python", 'score': 15.7}]},
-        {'name': "Amy", 'topics': [{'title': "Algo", 'score': 9.1}, {'title': "C", 'score': 14.2},
+        {'name': "Amy", 'topics': [{'title': "Algo", 'score': 9.1},
+                                   {'title': "C", 'score': 14.2},
                                    {'title': "Python", 'score': 4.8}]},
-        {'name': "Julia", 'topics': [{'title': "Algo", 'score': 10.5}, {'title': "C", 'score': 10.2},
+        {'name': "Julia", 'topics': [{'title': "Algo", 'score': 10.5},
+                                     {'title': "C", 'score': 10.2},
                                      {'title': "Python", 'score': 10.1}]}
     ]
     for j_student in j_students:
