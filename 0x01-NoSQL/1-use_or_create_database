@@ -1,7 +1,11 @@
-// 2-insert
 // Connect to the MongoDB server
 var conn = new Mongo();
-// Get the database name from the command line argument
-var db = conn.getDB(dbName);
-// Insert a document with name "Holberton school" in the collection school
-db.school.insert({ name: "Holberton school" });
+
+// Get the admin database
+var db = conn.getDB("admin");
+
+// Create or switch to the database 'my_db'
+db = db.getSiblingDB("my_db");
+
+// Print a message
+print("switched to db " + db.getName());
