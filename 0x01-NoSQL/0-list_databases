@@ -3,5 +3,5 @@
 var conn = new Mongo();
 // Get the admin database
 var db = conn.getDB("admin");
-// List all databases with size
-db.runCommand({ listDatabases: 1, showSize: true }).databases.forEach(db => print(db.name + "\t" + db.sizeOnDisk));
+// List all databases
+db.runCommand({ listDatabases: 1 }).databases.forEach(db => print(db.name));
