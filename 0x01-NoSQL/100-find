@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+""" Lists all documents with name starting by Holberton in the collection school """
+
+from pymongo import MongoClient
+from pymongo.collection import Collection
+
+
+def find_documents_by_name_prefix(mongo_collection: Collection, name_prefix: str):
+    """ Find and print documents in the collection that have a name starting with the given prefix.
+
+    Args:
+        mongo_collection (pymongo.collection.Collection):
+            The pymongo collection object.
+        name_prefix (str):
+            The prefix of the name to search for.
+    """
+    query = {"name": {"$regex": f"^{name_prefix}"}}
+    documents = mongo_collection.find(query)
+
+    for document in documents:
+        print(document)
+
+
+if __name__ == "__main__":
+    client = MongoClient('mongodb://127.0.0.1:27017')
+    school_collection = client.my_db.school
+
+    find_documents_by_name_prefix(school_collection, "Holberton")
