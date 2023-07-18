@@ -1,0 +1,7 @@
+// 4-match
+// Connect to the MongoDB server
+var conn = new Mongo();
+// Get the database name from the command line argument
+var db = conn.getDB(dbName);
+// List all documents with name="Holberton school" in the collection school
+db.school.find({ name: "Holberton school" }).forEach(doc => printjson(doc));
