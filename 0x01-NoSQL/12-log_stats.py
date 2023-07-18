@@ -5,6 +5,7 @@ Provides statistics about Nginx logs stored in MongoDB.
 
 from pymongo import MongoClient
 
+
 def count_logs(collection):
     """
     Count the number of logs in the collection.
@@ -16,6 +17,7 @@ def count_logs(collection):
         int: The number of documents in the collection.
     """
     return collection.count_documents({})
+
 
 def count_by_method(collection, method):
     """
@@ -30,6 +32,7 @@ def count_by_method(collection, method):
     """
     return collection.count_documents({"method": method})
 
+
 def count_status_check(collection, method, path):
     """
     Count the number of logs with a specific method and path in the collection.
@@ -43,6 +46,7 @@ def count_status_check(collection, method, path):
         int: The number of documents with the specified method and path.
     """
     return collection.count_documents({"method": method, "path": path})
+
 
 def log_stats():
     """
