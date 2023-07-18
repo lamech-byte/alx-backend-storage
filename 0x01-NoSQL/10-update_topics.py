@@ -11,8 +11,11 @@ def update_topics(mongo_collection: Collection, name: str, topics: List[str]) ->
 
     Args:
         mongo_collection (pymongo.collection.Collection):
-The pymongo collection object.
+            The pymongo collection object.
         name (str): The school name to update.
         topics (List[str]): The list of topics approached in the school.
     """
-    mongo_collection.update_one({"name": name}, {"$set": {"topics": topics}})
+    mongo_collection.update_one(
+        {"name": name},
+        {"$set": {"topics": topics}}
+    )
