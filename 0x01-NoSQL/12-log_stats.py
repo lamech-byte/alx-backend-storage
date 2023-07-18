@@ -67,5 +67,6 @@ def log_stats():
     status_check_count = count_status_check(collection, "GET", "/status")
     print(f"{status_check_count} status check")
 
+
 if __name__ == "__main__":
     log_stats()
