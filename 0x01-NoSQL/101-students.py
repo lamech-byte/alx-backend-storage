@@ -72,4 +72,5 @@ if __name__ == "__main__":
     top_students = top_students(students_collection)
     for student in top_students:
         print("[{}] {} => {}".format(
-            student.get('_id'), student.get('name'), student.get('averageScore')))
+            student.get('_id'), student.get('name'),
+            student.get('averageScore')))
