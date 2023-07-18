@@ -1,5 +1,11 @@
-// 1-use_or_create_database
 // Connect to the MongoDB server
 var conn = new Mongo();
-// Use or create the database my_db
-var db = conn.getDB("my_db");
+
+// Get the admin database
+var db = conn.getDB("admin");
+
+// Create or switch to the database 'my_db'
+db = db.getSiblingDB("my_db");
+
+// Print a message
+print("switched to db " + db.getName());
