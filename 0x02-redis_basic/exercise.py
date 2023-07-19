@@ -1,32 +1,31 @@
 import redis
 import uuid
-from typing import Callable, Union
-
 
 class Cache:
-    def __init__(self):
-        self._redis = redis.Redis()
-        self._redis.flushdb()
+def __init__(self):
+self._redis = redis.Redis()
 
-    def store(self, data: Union[str, bytes, int, float]) -> str:
-        key = str(uuid.uuid4())
-        if isinstance(data, (str, bytes)):
-            self._redis.set(key, data)
-        elif isinstance(data, (int, float)):
-            self._redis.set(key, str(data))
-        return key
+def store(self, data):
+# Generate a random key
+key = str(uuid.uuid4())
+# Store the data as a byte string
+self._redis.set(key, data)
+# Return the key
+return key
 
-    def
-    get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
-        data = self._redis.get(key)
-        if data is None:
-            return None
-        if fn is not None:
-            return fn(data)
-        return data
+def get(self, key, fn=None):
+# Get the data from the key
+data = self._redis.getkey
+# If fn is provided, apply it to the data
+if fn:
+data = fn(data)
+# Return the data
+return data
 
-    def get_str(self, key: str) -> str:
-        return self.get(key, fn=lambda d: d.decode("utf-8"))
+def get_str(self, key):
+# Get the data as a UTF-8 string
+return self.get(key, fn=lambda d: d.decode("utf-8"))
 
-    def get_int(self, key: str) -> int:
-        return self.get(key, fn=int)
+def get_int(self, key):
+# Get the data as an integer
+return self.get(key, fn=int)
