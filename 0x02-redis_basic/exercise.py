@@ -2,6 +2,7 @@ import redis
 import uuid
 from typing import Callable, Union
 
+
 class Cache:
     def __init__(self):
         self._redis = redis.Redis()
@@ -15,6 +16,7 @@ class Cache:
             self._redis.set(key, str(data))
         return key
 
+    
     def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
         data = self._redis.get(key)
         if data is None:
