@@ -3,6 +3,7 @@
 import redis
 import uuid
 
+
 class Cache:
     def __init__(self):
         self._redis = redis.Redis()
@@ -34,4 +35,3 @@ class Cache:
     def get_int(self, key):
         # Get the data as an integer
         return self.get(key, fn=int)
-
