@@ -67,7 +67,8 @@ def replay(method: Callable):
     input_list_key = "{}:inputs".format(method.__qualname__)
     output_list_key = "{}:outputs".format(method.__qualname__)
 
-    inputs = [eval(args_str) for args_str in cache._redis.lrange(input_list_key, 0, -1)]
+    inputs = [eval(args_str)
+              for args_str in cache._redis.lrange(input_list_key, 0, -1)]
     outputs = cache._redis.lrange(output_list_key, 0, -1)
 
     print(f"{method.__qualname__} was called {len(inputs)} times:")
