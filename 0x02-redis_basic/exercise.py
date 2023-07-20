@@ -36,6 +36,7 @@ class Cache:
         # Get the data as an integer
         return self.get(key, fn=int)
 
+
 def count_calls(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(self, *args, **kwargs):
