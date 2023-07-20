@@ -2,6 +2,7 @@ import requests
 import redis
 import time
 
+
 def get_page(url: str) -> str:
     # Connect to Redis
     r = redis.Redis()
