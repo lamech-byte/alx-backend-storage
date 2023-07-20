@@ -44,3 +44,20 @@ def count_calls(method: Callable) -> Callable:
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
+
+
+def call_history(method: Callable) -> Callable:
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        input_list_key = "{}:inputs".format(method.__qualname__)
+        output_list_key = "{}:outputs".format(method.__qualname__)
+
+        self._redis.rpush(input_list_key, str(args))
+
+        result = method(self, *args, **kwargs)
+
+        self._redis.rpush(output_list_key, result)
+
+        return result
+
+    return wrapper
