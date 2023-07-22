@@ -40,19 +40,19 @@ class Cache:
 
 
 def count_calls(method: Callable) -> Callable:
-    @functools.wraps(method)  # This line to properly decorates the method
+    @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
-        key = method.__qualname__
+        key = method.__name__
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
 
 
 def call_history(method: Callable) -> Callable:
-    @functools.wraps(method)  # This line properly decorates the method
+    @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
-        input_list_key = "{}:inputs".format(method.__qualname__)
-        output_list_key = "{}:outputs".format(method.__qualname__)
+        input_list_key = "{}:inputs".format(method.__name__)
+        output_list_key = "{}:outputs".format(method.__name__)
 
         self._redis.rpush(input_list_key, str(args))
 
@@ -66,13 +66,13 @@ def call_history(method: Callable) -> Callable:
 
 
 def replay(cache, method: Callable):
-    input_list_key = "{}:inputs".format(method.__qualname__)
-    output_list_key = "{}:outputs".format(method.__qualname__)
+    input_list_key = "{}:inputs".format(method.__name__)
+    output_list_key = "{}:outputs".format(method.__name__)
 
     inputs = [eval(args_str)
               for args_str in cache._redis.lrange(input_list_key, 0, -1)]
     outputs = cache._redis.lrange(output_list_key, 0, -1)
 
-    print(f"{method.__qualname__} was called {len(inputs)} times:")
+    print(f"{method.__name__} was called {len(inputs)} times:")
     for args, output in zip(inputs, outputs):
-        print(f"{method.__qualname__}{args} -> {output.decode()}")
+        print(f"{method.__name__}{args} -> {output.decode()}")
