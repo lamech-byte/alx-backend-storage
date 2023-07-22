@@ -10,7 +10,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
-    def store(self, data: Union[str, bytes, int, float]) -> str:
+    def store(self, data: Union[str, bytes, int, float]) -> str:  # Remove @staticmethod
         # Generate a random key
         key = str(uuid.uuid4())
         # Store the data as a byte string
@@ -40,7 +40,7 @@ class Cache:
 
 
 def count_calls(method: Callable) -> Callable:
-    @functools.wraps(method)
+    @functools.wraps(method)  # Add this line to properly decorate the method
     def wrapper(self, *args, **kwargs):
         key = method.__qualname__
         self._redis.incr(key)
@@ -49,7 +49,7 @@ def count_calls(method: Callable) -> Callable:
 
 
 def call_history(method: Callable) -> Callable:
-    @functools.wraps(method)
+    @functools.wraps(method)  # Add this line to properly decorate the method
     def wrapper(self, *args, **kwargs):
         input_list_key = "{}:inputs".format(method.__qualname__)
         output_list_key = "{}:outputs".format(method.__qualname__)
