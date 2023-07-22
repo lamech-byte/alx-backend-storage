@@ -93,4 +93,4 @@ if __name__ == "__main__":
     key2 = cache.store("Data2")
     key3 = cache.store("Data3")
 
-    replay(cache, cache.store)
+    replay(cache, cache.store)  # Pass both the cache object and the method to replay
