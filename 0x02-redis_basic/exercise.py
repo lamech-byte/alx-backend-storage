@@ -3,6 +3,7 @@
 import redis
 import uuid
 from typing import Callable, Union
+import functools
 
 class Cache:
     def __init__(self):
