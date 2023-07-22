@@ -63,7 +63,7 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(method: Callable):
+def replay(cache, method: Callable):
     input_list_key = "{}:inputs".format(method.__qualname__)
     output_list_key = "{}:outputs".format(method.__qualname__)
 
