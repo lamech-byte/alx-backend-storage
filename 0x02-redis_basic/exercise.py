@@ -5,7 +5,6 @@ import uuid
 from typing import Callable, Union
 import functools
 
-
 def count_calls(method: Callable) -> Callable:
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
@@ -13,7 +12,6 @@ def count_calls(method: Callable) -> Callable:
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
-
 
 def call_history(method: Callable) -> Callable:
     @functools.wraps(method)
@@ -30,7 +28,6 @@ def call_history(method: Callable) -> Callable:
         return result
 
     return wrapper
-
 
 class Cache:
     def __init__(self):
@@ -67,12 +64,11 @@ class Cache:
         # Get the data as an integer
         return self.get(key, fn=int)
 
-
 def replay(cache, method: Callable):
     input_list_key = "{}:inputs".format(method.__qualname__)
     output_list_key = "{}:outputs".format(method.__qualname__)
 
-    inputs = [eval(args_str)
+    inputs = [eval(args_str.decode("utf-8"))
               for args_str in cache._redis.lrange(input_list_key, 0, -1)]
     outputs = cache._redis.lrange(output_list_key, 0, -1)
 
