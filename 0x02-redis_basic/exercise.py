@@ -5,6 +5,14 @@ import uuid
 from typing import Callable, Union
 import functools
 
+def count_calls(method: Callable) -> Callable:
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        key = method.__qualname__
+        self._redis.incr(key)
+        return method(self, *args, **kwargs)
+    return wrapper
+
 class Cache:
     def __init__(self):
         self._redis = redis.Redis()
@@ -39,16 +47,6 @@ class Cache:
         # Get the data as an integer
         return self.get(key, fn=int)
 
-
-def count_calls(method: Callable) -> Callable:
-    @functools.wraps(method)
-    def wrapper(self, *args, **kwargs):
-        key = method.__qualname__
-        self._redis.incr(key)
-        return method(self, *args, **kwargs)
-    return wrapper
-
-
 def call_history(method: Callable) -> Callable:
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
@@ -64,7 +62,6 @@ def call_history(method: Callable) -> Callable:
         return result
 
     return wrapper
-
 
 def replay(cache, method: Callable):
     input_list_key = "{}:inputs".format(method.__qualname__)
