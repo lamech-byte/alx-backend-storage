@@ -13,6 +13,22 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+def call_history(method: Callable) -> Callable:
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        input_list_key = "{}:inputs".format(method.__qualname__)
+        output_list_key = "{}:outputs".format(method.__qualname__)
+
+        self._redis.rpush(input_list_key, str(args))
+
+        result = method(self, *args, **kwargs)
+
+        self._redis.rpush(output_list_key, result)
+
+        return result
+
+    return wrapper
+
 class Cache:
     def __init__(self):
         self._redis = redis.Redis()
@@ -47,22 +63,6 @@ class Cache:
     def get_int(self, key):
         # Get the data as an integer
         return self.get(key, fn=int)
-
-def call_history(method: Callable) -> Callable:
-    @functools.wraps(method)
-    def wrapper(self, *args, **kwargs):
-        input_list_key = "{}:inputs".format(method.__qualname__)
-        output_list_key = "{}:outputs".format(method.__qualname__)
-
-        self._redis.rpush(input_list_key, str(args))
-
-        result = method(self, *args, **kwargs)
-
-        self._redis.rpush(output_list_key, result)
-
-        return result
-
-    return wrapper
 
 def replay(cache, method: Callable):
     input_list_key = "{}:inputs".format(method.__qualname__)
