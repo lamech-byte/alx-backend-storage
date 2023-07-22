@@ -86,6 +86,7 @@ def replay(cache: Cache, method: Callable) -> None:
     for args, output in zip(inputs, outputs):
         print(f"{method.__qualname__}{args} -> {output.decode()}")
 
+
 if __name__ == "__main__":
     cache = Cache()
     key1 = cache.store("Data1")
