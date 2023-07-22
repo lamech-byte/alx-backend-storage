@@ -31,6 +31,7 @@ def call_history(method: Callable) -> Callable:
 
     return wrapper
 
+
 class Cache:
     def __init__(self):
         self._redis = redis.Redis()
@@ -65,6 +66,7 @@ class Cache:
     def get_int(self, key):
         # Get the data as an integer
         return self.get(key, fn=int)
+
 
 def replay(cache, method: Callable):
     input_list_key = "{}:inputs".format(method.__qualname__)
