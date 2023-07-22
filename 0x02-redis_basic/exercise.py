@@ -72,6 +72,7 @@ class Cache:
         # Get the data as an integer
         return self.get(key, fn=int)
 
+
 def replay(cache: Cache, method: Callable) -> None:
     """Replay the calls to a method from the cache."""
     input_list_key = "{}:inputs".format(method.__qualname__)
