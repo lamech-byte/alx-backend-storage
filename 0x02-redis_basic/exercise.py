@@ -2,13 +2,13 @@
 
 import redis
 import uuid
-
+from typing import Callable, Union
 
 class Cache:
     def __init__(self):
         self._redis = redis.Redis()
 
-    def store(self, data):
+    def store(self, data: Union[str, bytes, int, float]) -> str:
         # Generate a random key
         key = str(uuid.uuid4())
         # Store the data as a byte string
