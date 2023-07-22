@@ -6,6 +6,7 @@ from typing import Callable, Union
 import functools
 
 def count_calls(method: Callable) -> Callable:
+    """Decorator that counts the number of calls to a method."""
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         key = method.__qualname__
@@ -14,6 +15,7 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 def call_history(method: Callable) -> Callable:
+    """Decorator that records the inputs and outputs of a method."""
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         input_list_key = "{}:inputs".format(method.__qualname__)
@@ -30,13 +32,16 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 class Cache:
+    """A class that provides caching functionality using Redis."""
     def __init__(self):
+        """Initialize the Redis cache."""
         self._redis = redis.Redis()
         self._redis.flushdb()
 
     @count_calls
     @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
+        """Store data in the cache and return the key."""
         # Generate a random key
         key = str(uuid.uuid4())
         # Store the data as a byte string
@@ -64,7 +69,8 @@ class Cache:
         # Get the data as an integer
         return self.get(key, fn=int)
 
-def replay(cache, method: Callable):
+def replay(cache: Cache, method: Callable) -> None:
+    """Replay the calls to a method from the cache."""
     input_list_key = "{}:inputs".format(method.__qualname__)
     output_list_key = "{}:outputs".format(method.__qualname__)
 
