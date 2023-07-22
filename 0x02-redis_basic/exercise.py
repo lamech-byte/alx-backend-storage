@@ -58,7 +58,7 @@ class Cache:
         # If key does not exist, return None
         if data is None:
             return None
-        # If fn is provided, apply it to the data
+        # If fn is provided apply it to the data
         if fn:
             data = fn(data)
         # Return the data
