@@ -40,7 +40,7 @@ class Cache:
 
 
 def count_calls(method: Callable) -> Callable:
-    @wraps(method)
+    @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         key = method.__qualname__
         self._redis.incr(key)
@@ -49,7 +49,7 @@ def count_calls(method: Callable) -> Callable:
 
 
 def call_history(method: Callable) -> Callable:
-    @wraps(method)
+    @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         input_list_key = "{}:inputs".format(method.__qualname__)
         output_list_key = "{}:outputs".format(method.__qualname__)
