@@ -5,6 +5,7 @@ import uuid
 from typing import Callable, Union
 import functools
 
+
 def count_calls(method: Callable) -> Callable:
     """Decorator that counts the number of calls to a method."""
     @functools.wraps(method)
@@ -13,6 +14,7 @@ def count_calls(method: Callable) -> Callable:
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
+
 
 def call_history(method: Callable) -> Callable:
     """Decorator that records the inputs and outputs of a method."""
@@ -30,6 +32,7 @@ def call_history(method: Callable) -> Callable:
         return result
 
     return wrapper
+
 
 class Cache:
     """A class that provides caching functionality using Redis."""
