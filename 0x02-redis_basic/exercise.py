@@ -4,7 +4,8 @@ This module contains the implementation of a caching system using Redis.
 
 The Cache class provides caching functionality using Redis as the backend.
 It supports storing and retrieving data in the cache, as well as counting the
-number of calls to the store method and recording the inputs and outputs of each call.
+number of calls to the store method and recording the inputs and
+outputs of each call.
 
 Usage:
     cache = Cache()
