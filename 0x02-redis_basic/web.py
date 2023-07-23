@@ -29,9 +29,10 @@ def get_page(url: str) -> str:
 
     return page_content, url_count.decode()
 
+
 if __name__ == "__main__":
     url = "http://google.com"
     page_content, url_count = get_page(url)
-    print(f"{url} is cached for 10 seconds and removed from the redis cache after 10 sec")
+    print(f"{url} is cached for 10 seconds from the redis cache after 10 sec")
     print(f"Page Content: {page_content}")
     print(f"URL Count: {url_count}")
