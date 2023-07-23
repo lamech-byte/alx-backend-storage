@@ -1,26 +1,4 @@
 #!/usr/bin/env python3
-"""
-This module contains the implementation of a caching system using Redis.
-
-The Cache class provides caching functionality using Redis as the backend.
-It supports storing and retrieving data in the cache, as well as counting the
-number of calls to the store method and recording the inputs and
-outputs of each call.
-
-Usage:
-    cache = Cache()
-    key = cache.store("data")  # Store data in the cache and get the key
-    data = cache.get(key)      # Retrieve data from the cache using the key
-
-    # Get the data from the cache and parse it as a string
-    data_str = cache.get_str(key)
-
-    # Get the data from the cache and parse it as an integer
-    data_int = cache.get_int(key)
-
-    # Replay the calls to the store method from the cache
-    replay(cache, cache.store)
-"""
 
 import redis
 import uuid
@@ -29,7 +7,15 @@ import functools
 
 
 def count_calls(method: Callable) -> Callable:
-    """Decorator that counts the number of calls to a method."""
+    """
+    Decorator that counts the number of calls to a method.
+
+    Args:
+        method (Callable): The method to be decorated.
+
+    Returns:
+        Callable: The decorated method that counts the number of calls.
+    """
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         key = method.__qualname__
@@ -39,7 +25,15 @@ def count_calls(method: Callable) -> Callable:
 
 
 def call_history(method: Callable) -> Callable:
-    """Decorator that records the inputs and outputs of a method."""
+    """
+    Decorator that records the inputs and outputs of a method.
+
+    Args:
+        method (Callable): The method to be decorated.
+
+    Returns:
+        Callable: The decorated method that records the inputs and outputs.
+    """
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         input_list_key = "{}:inputs".format(method.__qualname__)
@@ -57,7 +51,12 @@ def call_history(method: Callable) -> Callable:
 
 
 class Cache:
-    """A class that provides caching functionality using Redis."""
+    """
+    A class that provides caching functionality using Redis.
+
+    Attributes:
+        _redis (redis.Redis): The Redis client instance.
+    """
     def __init__(self):
         """Initialize the Redis cache."""
         self._redis = redis.Redis()
@@ -66,7 +65,15 @@ class Cache:
     @count_calls
     @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        """Store data in the cache and return the key."""
+        """
+        Store data in the cache and return the key.
+
+        Args:
+            data (Union[str, bytes, int, float]): The data to be stored in the cache.
+
+        Returns:
+            str: The key associated with the stored data.
+        """
         # Generate a random key
         key = str(uuid.uuid4())
         # Store the data as a byte string
@@ -74,7 +81,17 @@ class Cache:
         # Return the key
         return key
 
-    def get(self, key, fn=None):
+    def get(self, key, fn=None) -> Union[str, bytes, int, float, None]:
+        """
+        Get the data from the cache using the given key.
+
+        Args:
+            key: The key used to retrieve the data from the cache.
+            fn (Callable, optional): A function to apply to the retrieved data.
+
+        Returns:
+            Union[str, bytes, int, float, None]: The retrieved data from the cache.
+        """
         # Get the data from the key
         data = self._redis.get(key)
         # If key does not exist, return None
@@ -86,11 +103,29 @@ class Cache:
         # Return the data
         return data
 
-    def get_str(self, key):
+    def get_str(self, key) -> str:
+        """
+        Get the data from the cache as a UTF-8 string.
+
+        Args:
+            key: The key used to retrieve the data from the cache.
+
+        Returns:
+            str: The retrieved data as a UTF-8 string.
+        """
         # Get the data as a UTF-8 string
         return self.get(key, fn=lambda d: d.decode("utf-8"))
 
-    def get_int(self, key):
+    def get_int(self, key) -> int:
+        """
+        Get the data from the cache as an integer.
+
+        Args:
+            key: The key used to retrieve the data from the cache.
+
+        Returns:
+            int: The retrieved data as an integer.
+        """
         # Get the data as an integer
         return self.get(key, fn=int)
 
