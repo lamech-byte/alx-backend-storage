@@ -69,7 +69,8 @@ class Cache:
         Store data in the cache and return the key.
 
         Args:
-            data (Union[str, bytes, int, float]): The data to be stored in the cache.
+            data (Union[str, bytes, int, float]): The data to
+            be stored in the cache.
 
         Returns:
             str: The key associated with the stored data.
@@ -90,7 +91,8 @@ class Cache:
             fn (Callable, optional): A function to apply to the retrieved data.
 
         Returns:
-            Union[str, bytes, int, float, None]: The retrieved data from the cache.
+            Union[str, bytes, int, float, None]: The retrieved
+            data from the cache.
         """
         # Get the data from the key
         data = self._redis.get(key)
