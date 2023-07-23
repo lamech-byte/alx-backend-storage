@@ -29,9 +29,9 @@ def get_page(url: str) -> str:
 
     return page_content
 
+
 if __name__ == "__main__":
     url = "http://google.com"
     page_content = get_page(url)
-    print(f"{url} is cached for 10 seconds and removed
-    from the redis cache after 10 sec")
+    print(f"{url} is cached for 10 seconds from the redis cache after 10 sec")
     print(f"Page Content: {page_content}")
