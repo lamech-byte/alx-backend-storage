@@ -6,8 +6,10 @@ from typing import Callable, Union
 import functools
 
 """
-This module provides the Cache class, which offers caching functionality using Redis.
+This module provides the Cache class, which offers
+caching functionality using Redis.
 """
+
 
 def count_calls(method: Callable) -> Callable:
     """
