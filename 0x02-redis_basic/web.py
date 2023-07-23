@@ -6,6 +6,15 @@ import time
 
 
 def get_page(url: str) -> str:
+    """Fetches the page content from the given
+    URL and caches the access count in Redis.
+
+    Args:
+        url (str): The URL of the page to fetch.
+
+    Returns:
+        str: The page content fetched from the URL.
+    """
     # Connect to Redis
     r = redis.Redis()
 
