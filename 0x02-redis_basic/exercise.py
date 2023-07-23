@@ -1,4 +1,25 @@
 #!/usr/bin/env python3
+"""
+This module contains the implementation of a caching system using Redis.
+
+The Cache class provides caching functionality using Redis as the backend.
+It supports storing and retrieving data in the cache, as well as counting the
+number of calls to the store method and recording the inputs and outputs of each call.
+
+Usage:
+    cache = Cache()
+    key = cache.store("data")  # Store data in the cache and get the key
+    data = cache.get(key)      # Retrieve data from the cache using the key
+
+    # Get the data from the cache and parse it as a string
+    data_str = cache.get_str(key)
+
+    # Get the data from the cache and parse it as an integer
+    data_int = cache.get_int(key)
+
+    # Replay the calls to the store method from the cache
+    replay(cache, cache.store)
+"""
 
 import redis
 import uuid
